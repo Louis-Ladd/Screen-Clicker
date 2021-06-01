@@ -14,22 +14,14 @@ namespace Screen_Clicker
         public MainWin()
         {
             InitializeComponent();
-            MyController cont = new MyController();
-            Thread thread = new Thread(new ThreadStart(cont.Screen_Scan));
-            thread.IsBackground = true;
-            thread.Name = "Checking!";
-            thread.Start();
-        }
-        public void start_MyController()
-        {
 
             MyController cont = new MyController();
             Thread thread = new Thread(new ThreadStart(cont.Screen_Scan));
             thread.IsBackground = true;
             thread.Name = "Checking!";
             thread.Start();
-            
         }
+        
         //static bool checkBoxState = true; //DEBUG
         public void IncrementCounter()
         {
@@ -83,6 +75,9 @@ namespace Screen_Clicker
                 }
 
                 
+                //Best way to change UI element based on the cycles of the method.
+                MainWin win = (MainWin)Application.OpenForms["MainWin"];
+                win.IncrementCounter();
                 runs++;
                 if (runs >= 5)
                 {
@@ -160,7 +155,7 @@ namespace Screen_Clicker
             mouse_event(MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE, mappedX, mappedY, 0, 0);
         }
 
-        //This remaps the input into a more uniform 1920x1080
+       
         private static float Remap(float value, float from1, float to1, float from2, float to2)
         {
             return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
