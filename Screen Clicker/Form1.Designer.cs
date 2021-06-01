@@ -1,5 +1,5 @@
 ﻿
-namespace Auto_Twitch_Farm
+namespace Screen_Clicker
 {
     partial class MainWin
     {
@@ -30,6 +30,7 @@ namespace Auto_Twitch_Farm
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
+            this.CounterLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -41,11 +42,21 @@ namespace Auto_Twitch_Farm
             this.label1.TabIndex = 1;
             this.label1.Text = "SCANNING...";
             // 
+            // CounterLabel
+            // 
+            this.CounterLabel.AutoSize = true;
+            this.CounterLabel.Location = new System.Drawing.Point(36, 27);
+            this.CounterLabel.Name = "CounterLabel";
+            this.CounterLabel.Size = new System.Drawing.Size(13, 15);
+            this.CounterLabel.TabIndex = 2;
+            this.CounterLabel.Text = "0";
+            // 
             // MainWin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(134, 51);
+            this.Controls.Add(this.CounterLabel);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "MainWin";
@@ -57,6 +68,7 @@ namespace Auto_Twitch_Farm
 
         #endregion
         private System.Windows.Forms.Label label1;
+        public System.Windows.Forms.Label CounterLabel;
     }
 }
 
