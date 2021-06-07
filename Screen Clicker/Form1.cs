@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 
 namespace Screen_Clicker
@@ -19,6 +20,7 @@ namespace Screen_Clicker
             Thread thread = new Thread(new ThreadStart(cont.Screen_Scan));
             thread.IsBackground = true;
             thread.Name = "Checking!";
+            thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }
         
@@ -35,19 +37,23 @@ namespace Screen_Clicker
                 }));
             }
         }
-        
+
     }
     public class MyController
     {
         public int runs = 0;
         int posY = 0;
         int posX = 0;
-        
 
         public void Screen_Scan() // this code loops forever on it's own thread.
         {
+            OpenFileDialog openImage = new OpenFileDialog();
+            openImage.Filter = "PNG Files (*.png)|*.png";
+            openImage.ShowDialog();
 
-            Bitmap objective = Properties.Resources.bin; //Set to an image in the resources.resx and resources folder.
+
+
+            Bitmap objective = new Bitmap(openImage.OpenFile());
 
             while (true)
             {
@@ -64,19 +70,25 @@ namespace Screen_Clicker
                 //screenScan.Save("D:/c# fun/Auto Twitch Farm/OUT.bmp");  //DEBUG
 
                 bool imageScanResult = Compare_Scan(objective, screenScan);
+
                 if (imageScanResult == true)
                 {
 
                     Mouse.MoveTo(posX + objective.Width / 2, posY + objective.Height / 2);
+                    
                     Mouse.LeftClick();
-                    Mouse.MoveTo(960, 540);
+
+                    Mouse.MoveTo(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
 
                 }
 
                 
-                //Best way to change UI element based on the cycles of the method.
+                //Cross threading madness
                 MainWin win = (MainWin)Application.OpenForms["MainWin"];
-                win.IncrementCounter();
+                if(!win.IsDisposed)
+                { 
+                    win.IncrementCounter();
+                }
                 runs++;
                 if (runs >= 5)
                 {
@@ -84,7 +96,7 @@ namespace Screen_Clicker
                     runs = 0;
                 }
 
-                Thread.Sleep(50);
+                Thread.Sleep(100);
             }
         }
         private bool Compare_Scan(Bitmap searchFor, Bitmap searchIn)
