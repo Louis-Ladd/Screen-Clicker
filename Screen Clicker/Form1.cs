@@ -22,7 +22,6 @@ namespace Screen_Clicker
             thread.Start();
         }
         
-        //static bool checkBoxState = true; //DEBUG
         public void IncrementCounter()
         {
             if (CounterLabel.InvokeRequired)
